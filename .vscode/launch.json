@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    { "name": "Python Debugger: Current File",
+      "cwd": "${workspaceFolder}/py",
+      "type": "debugpy", "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Frontend",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "cwd": "${workspaceFolder}/frontend",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "AStar Test",
+      "type": "node",
+      "request": "launch",
+      "program": "astar.js",
+      "cwd": "${workspaceFolder}/front/src/helpers",
+      "console": "integratedTerminal",
+    },
+    {
+      "name": "Browser Start",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/front/src",
+      "skipFiles": [
+        "**/node_modules/**",
+        "<node_internals>/**"
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "❤ ALL",
+      "configurations": [
+        "Backend",
+        "Frontend",
+        "Browser Start"
+      ],
+      "stopAll": true
+    }
+  ]
+}

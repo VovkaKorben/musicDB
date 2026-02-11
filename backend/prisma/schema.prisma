@@ -1,0 +1,82 @@
+// schema.prisma
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  REGISTERED
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  role      Role      @default(REGISTERED)
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+}
+
+model Style {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  artists Artist[]
+}
+
+model Artist {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  photoUrl    String?
+  website     String?
+  yearsActive String?
+  isDeleted   Boolean   @default(false)
+  styleId     Int
+  style       Style     @relation(fields: [styleId], references: [id])
+  albums      Album[]
+  comments    Comment[]
+}
+
+model Album {
+  id        Int       @id @default(autoincrement())
+  title     String
+  year      Int
+  isDeleted Boolean   @default(false)
+  artistId  Int
+  artist    Artist    @relation(fields: [artistId], references: [id])
+  songs     Song[]
+  comments  Comment[]
+}
+
+model Song {
+  id        Int       @id @default(autoincrement())
+  title     String
+  duration  String
+  isDeleted Boolean   @default(false)
+  albumId   Int
+  album     Album     @relation(fields: [albumId], references: [id])
+  comments  Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  // Опциональные связи для комментирования разных сущностей
+  artistId  Int?
+  artist    Artist?  @relation(fields: [artistId], references: [id])
+  
+  albumId   Int?
+  album     Album?   @relation(fields: [albumId], references: [id])
+  
+  songId    Int?
+  song      Song?    @relation(fields: [songId], references: [id])
+}
